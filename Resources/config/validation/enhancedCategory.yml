@@ -1,0 +1,6 @@
+Akeneo\Bundle\EnhancedEntityBundle\Form\EnhancedCategoryType:
+    properties:
+        description:
+            - NotBlank: ~
+            - Length:
+                max: 2

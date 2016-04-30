@@ -29,7 +29,7 @@ class AddEnhancedCategorySubscriber implements EventSubscriberInterface
     {
         return [
             FormEvents::PRE_SET_DATA => 'preSetData',
-            FormEvents::PRE_SUBMIT   => 'preSubmit',
+            FormEvents::POST_SUBMIT  => 'saveEntity',
         ];
     }
 
@@ -56,11 +56,14 @@ class AddEnhancedCategorySubscriber implements EventSubscriberInterface
         ]);
     }
 
-    public function preSubmit(FormEvent $event)
+    public function saveEntity(FormEvent $event)
     {
-        $form = $event->getForm();
-        $extra = $form->get('enhanced')->getData();
+        $categoryForm = $event->getForm();
+        $enhancedForm = $categoryForm->get('enhanced');
 
-        $this->em->persist($extra);
+        if ($enhancedForm->isValid()) {
+            $enhancedCategory = $enhancedForm->getData();
+            $this->em->persist($enhancedCategory);
+        }
     }
 }
