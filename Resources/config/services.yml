@@ -1,8 +1,11 @@
+parameters:
+    pim_enrich.view_element.category.tab.property.template: 'EnhancedEntityBundle:CategoryTree:Tab/property.html.twig'
+
 services:
     pim_enhanced_entity.form.type.category_extra:
         class: Akeneo\Bundle\EnhancedEntityBundle\Form\EnhancedCategoryType
         tags:
-            - { name: form.type, alias: pim_category_extra }
+            - { name: form.type, alias: pim_category_enhanced }
 
     pim_enhanced_entity.form.subscriber.add_extra_form:
         class: Akeneo\Bundle\EnhancedEntityBundle\Form\Event\AddEnhancedCategorySubscriber
