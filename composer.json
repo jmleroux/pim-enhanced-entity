@@ -1,0 +1,31 @@
+{
+    "name": "akeneo/enhanced-entity",
+    "type": "symfony-bundle",
+    "description": "PoC to add info to entity without override",
+    "license": "OSL-3.0",
+    "authors": [
+        {
+            "name": "JM Leroux <jean-marie.leroux@akeneo.com>"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/akeneo/pim-community-dev.git",
+            "branch": "master"
+        }
+    ],
+    "require": {
+        "php": ">= 5.5",
+        "akeneo/pim-community-dev": "^1.5.2",
+        "doctrine/migrations": "1.0.0-alpha3@alpha"
+    },
+    "autoload": {
+        "psr-4": {
+            "Akeneo\\Bundle\\EnhancedEntityBundle\\": ""
+        }
+    },
+    "config": {
+        "bin-dir": "bin"
+    }
+}

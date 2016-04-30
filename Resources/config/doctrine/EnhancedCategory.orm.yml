@@ -1,0 +1,20 @@
+Akeneo\Bundle\EnhancedEntityBundle\Entity\EnhancedCategory:
+    type: entity
+    table: pim_catalog_category_enhanced
+    changeTrackingPolicy: DEFERRED_EXPLICIT
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                 strategy: AUTO
+        description:
+            type: string
+            length: 100
+            unique: true
+    oneToOne:
+        category:
+            targetEntity: Pim\Bundle\CatalogBundle\Entity\Category
+            joinColumn:
+                name: category_id
+                referencedColumnName: id
