@@ -1,4 +1,5 @@
 <?php
+
 namespace Akeneo\Bundle\EnhancedEntityBundle\Form;
 
 use Akeneo\Bundle\EnhancedEntityBundle\Entity\EnhancedCategory;
@@ -26,7 +27,7 @@ class EnhancedCategoryType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class'  => EnhancedCategory::class,
+                'data_class'      => EnhancedCategory::class,
                 'auto_initialize' => false,
             ]
         );

@@ -1,4 +1,5 @@
 <?php
+
 namespace Akeneo\Bundle\EnhancedEntityBundle\Entity;
 
 use Akeneo\Component\Classification\Model\CategoryInterface;
