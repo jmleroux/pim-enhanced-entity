@@ -30,3 +30,8 @@ services:
             - '@service_container'
         tags:
             - { name: kernel.event_subscriber }
+
+    pim_enhanced_entity.event.subscriber.category_loadclassmetadata:
+        class: Akeneo\Bundle\EnhancedEntityBundle\Doctrine\Orm\ClassMetadataSubscriber
+        tags:
+          - { name: doctrine.event_listener, event: loadClassMetadata }
