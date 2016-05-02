@@ -3,7 +3,8 @@
 namespace Akeneo\Bundle\EnhancedEntityBundle\Form\Event;
 
 use Akeneo\Bundle\EnhancedEntityBundle\Entity\EnhancedCategory;
-use Doctrine\ORM\EntityManagerInterface;
+use Akeneo\Component\StorageUtils\Saver\SaverInterface;
+use Doctrine\Common\Persistence\ObjectRepository;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -16,13 +17,21 @@ class AddEnhancedCategorySubscriber implements EventSubscriberInterface
      */
     private $factory;
 
-    /** @var EntityManagerInterface */
-    private $em;
+    /** @var ObjectRepository */
+    private $repository;
 
-    public function __construct(FormFactoryInterface $factory, EntityManagerInterface $em)
+    /** @var SaverInterface */
+    private $saver;
+
+    public function __construct(
+        FormFactoryInterface $factory,
+        ObjectRepository $repository,
+        SaverInterface $saver
+    )
     {
         $this->factory = $factory;
-        $this->em = $em;
+        $this->repository = $repository;
+        $this->saver = $saver;
     }
 
     public static function getSubscribedEvents()
@@ -41,8 +50,7 @@ class AddEnhancedCategorySubscriber implements EventSubscriberInterface
         $extra = null;
 
         if (null !== $category && null !== $category->getId()) {
-            $repo = $this->em->getRepository(EnhancedCategory::class);
-            $extra = $repo->findOneBy(['category' => $category]);
+            $extra = $this->repository->findOneBy(['category' => $category]);
         }
 
         if (null === $extra) {
@@ -63,7 +71,7 @@ class AddEnhancedCategorySubscriber implements EventSubscriberInterface
 
         if ($enhancedForm->isValid()) {
             $enhancedCategory = $enhancedForm->getData();
-            $this->em->persist($enhancedCategory);
+            $this->saver->save($enhancedCategory);
         }
     }
 }

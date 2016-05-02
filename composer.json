@@ -1,5 +1,5 @@
 {
-    "name": "jmleroux/enhanced-entity",
+    "name": "jmleroux/enhanced-entity-bundle",
     "type": "symfony-bundle",
     "description": "PoC to add info to entity without override",
     "license": "OSL-3.0",

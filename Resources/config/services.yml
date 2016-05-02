@@ -11,7 +11,8 @@ services:
         class: Akeneo\Bundle\EnhancedEntityBundle\Form\Event\AddEnhancedCategorySubscriber
         arguments:
             - '@form.factory'
-            - '@doctrine.orm.entity_manager'
+            - '@pim_enhanced_entity.repository.enhanced_category'
+            - '@pim_enhanced_entity.saver.enhanced_category'
 
     pim_enrich.form.type.category:
         class: '%pim_enrich.form.type.category.class%'
@@ -22,3 +23,16 @@ services:
             - { name: form.type, alias: pim_category }
         calls:
             - [addEventSubscriber, ['@pim_enhanced_entity.form.subscriber.add_extra_form']]
+
+    pim_enhanced_entity.repository.enhanced_category:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - Akeneo\Bundle\EnhancedEntityBundle\Entity\EnhancedCategory
+
+    pim_enhanced_entity.saver.enhanced_category:
+        class: Akeneo\Bundle\EnhancedEntityBundle\Doctrine\Common\Saver\EnhancedCategorySaver
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@akeneo_storage_utils.saver.base_options_resolver'
+            - '@event_dispatcher'

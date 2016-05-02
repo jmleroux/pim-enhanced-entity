@@ -13,8 +13,4 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class EnhancedEntityBundle extends Bundle
 {
-    public function getParent()
-    {
-        return 'PimEnrichBundle';
-    }
 }
