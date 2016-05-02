@@ -1,6 +1,3 @@
-parameters:
-    pim_enrich.view_element.category.tab.property.template: 'EnhancedEntityBundle:CategoryTree:Tab/property.html.twig'
-
 services:
     pim_enhanced_entity.form.type.category_extra:
         class: Akeneo\Bundle\EnhancedEntityBundle\Form\EnhancedCategoryType
@@ -12,17 +9,7 @@ services:
         arguments:
             - '@form.factory'
             - '@pim_enhanced_entity.repository.enhanced_category'
-            - '@pim_enhanced_entity.saver.enhanced_category'
-
-    pim_enrich.form.type.category:
-        class: '%pim_enrich.form.type.category.class%'
-        arguments:
-            - '%pim_catalog.entity.category.class%'
-            - '%pim_catalog.entity.category_translation.class%'
-        tags:
-            - { name: form.type, alias: pim_category }
-        calls:
-            - [addEventSubscriber, ['@pim_enhanced_entity.form.subscriber.add_extra_form']]
+            - '@event_dispatcher'
 
     pim_enhanced_entity.repository.enhanced_category:
         class: Doctrine\ORM\EntityRepository
@@ -36,3 +23,10 @@ services:
             - '@doctrine.orm.entity_manager'
             - '@akeneo_storage_utils.saver.base_options_resolver'
             - '@event_dispatcher'
+
+    pim_enhanced_entity.event.subscriber.category_event:
+        class: Akeneo\Bundle\EnhancedEntityBundle\Event\CategoryEventSubscriber
+        arguments:
+            - '@service_container'
+        tags:
+            - { name: kernel.event_subscriber }

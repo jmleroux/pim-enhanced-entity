@@ -3,35 +3,35 @@
 namespace Akeneo\Bundle\EnhancedEntityBundle\Form\Event;
 
 use Akeneo\Bundle\EnhancedEntityBundle\Entity\EnhancedCategory;
-use Akeneo\Component\StorageUtils\Saver\SaverInterface;
+use Akeneo\Bundle\EnhancedEntityBundle\Event\EnhancedEntityEvents;
 use Doctrine\Common\Persistence\ObjectRepository;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormFactoryInterface;
 
 class AddEnhancedCategorySubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var FormFactoryInterface
-     */
+    /** @var FormFactoryInterface */
     private $factory;
 
     /** @var ObjectRepository */
     private $repository;
 
-    /** @var SaverInterface */
-    private $saver;
+    /** @var EventDispatcherInterface */
+    private $dispatcher;
 
     public function __construct(
         FormFactoryInterface $factory,
         ObjectRepository $repository,
-        SaverInterface $saver
+        EventDispatcherInterface $dispatcher
     )
     {
         $this->factory = $factory;
         $this->repository = $repository;
-        $this->saver = $saver;
+        $this->dispatcher = $dispatcher;
     }
 
     public static function getSubscribedEvents()
@@ -71,7 +71,7 @@ class AddEnhancedCategorySubscriber implements EventSubscriberInterface
 
         if ($enhancedForm->isValid()) {
             $enhancedCategory = $enhancedForm->getData();
-            $this->saver->save($enhancedCategory);
+            $this->dispatcher->dispatch(EnhancedEntityEvents::POST_EDIT, new GenericEvent($enhancedCategory));
         }
     }
 }
